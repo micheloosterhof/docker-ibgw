@@ -5,3 +5,9 @@ all: Dockerfile
 
 run:
 	docker run ${IMAGENAME} --name ${IMAGENAME}
+
+clean:
+	docker rmi ${IMAGENAME}
+
+shell:
+        docker exec -it ${IMAGENAME} bash
