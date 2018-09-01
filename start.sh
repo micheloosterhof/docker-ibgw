@@ -119,6 +119,7 @@ export APP
 
 # get the IBC version
 read IBC_VRSN < "${IBC_PATH}/version"
+export IBC_VRSN
 
 echo -e "+ IBC version ${IBC_VRSN}"
 echo -e "+ Running ${TWS_MAJOR_VRSN}"
