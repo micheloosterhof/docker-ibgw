@@ -49,19 +49,16 @@ RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/3.6.0/IBCLinux-3.
 RUN unzip ./IBCLinux-3.6.0.zip
 RUN find ${IBC_PATH} -name '*.sh' | xargs chmod u+x
 RUN rm -f IBCLinux-3.6.0.zip
-RUN mkdir -p $IBC_PATH /root/ibc/logs
-RUN sed  -i -e 's/^TWS_MAJOR_VRSN=.*/TWS_MAJOR_VRSN=973/' /opt/ibc/gatewaystart.sh
 COPY config.ini /root/ibc
 
 WORKDIR /
 # =============================================================================
 # Launch a virtual screen
-ENV DISPLAY=:1
 # =============================================================================
+ENV DISPLAY=:1
 
 COPY start.sh ${IBC_PATH}
 RUN chmod u+x ${IBC_PATH}/start.sh
-RUN mkdir -p /root/ibc/logs
 
 CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh 
 EXPOSE 4002
