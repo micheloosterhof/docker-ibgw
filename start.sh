@@ -99,17 +99,6 @@ JAVA_PATH=
 #     TWS/Gateway unless you set the path to it here. You should not do this
 #     without a very good reason.
 
-
-#   HIDE
-#
-#     If set to YES or TRUE, the diagnostic window that contains information
-#     about the running TWS, and where to find the log file, will be iconified.
-#     If not set, or set to any other value, the window will be displayed.
-#     Values are not case-sensitive so for example yEs and yes are interpeted
-#     as YES. (Note that when the -inline argument is supplied, this setting
-#     has no effect.)
-
-
 #   End of Notes:
 #==============================================================================
 
