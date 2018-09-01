@@ -1,13 +1,25 @@
 IMAGENAME = ibgw
+CONTAINERNAME= ibgw
 
 all: Dockerfile
 	docker build -t ${IMAGENAME} .
 
-run:
-	docker run ${IMAGENAME} --name ${IMAGENAME}
+start:
+	docker run -d --name ${CONTAINERNAME} ${IMAGENAME}
+
+stop:
+	docker stop ${CONTAINERNAME}
+	docker rm ${CONTAINERNAME}
 
 clean:
 	docker rmi ${IMAGENAME}
 
 shell:
-        docker exec -it ${IMAGENAME} bash
+	docker exec -it ${CONTAINERNAME} bash
+
+logs:
+	docker logs ${CONTAINERNAME}
+
+ip:
+	docker inspect ${CONTAINERNAME} | jq '..|.IPAddress?' | grep -v null | sort -u
+
