@@ -134,19 +134,8 @@ read IBC_VRSN < "${IBC_PATH}/version"
 echo -e "+ IBC version ${IBC_VRSN}"
 echo -e "+ Running ${TWS_MAJOR_VRSN}"
 
-# forward signals (see https://veithen.github.io/2014/11/16/sigterm-propagation.html)
-trap 'kill -TERM $PID' TERM INT
-
-"${IBC_PATH}/scripts/ibcstart.sh" "${TWS_MAJOR_VRSN}" -g \
+exec "${IBC_PATH}/scripts/ibcstart.sh" "${TWS_MAJOR_VRSN}" -g \
      --tws-path="${TWS_PATH}" --tws-settings-path="${TWS_CONFIG_PATH}" \
      --ibc-path="${IBC_PATH}" --ibc-ini="${IBC_INI}" \
      --user="${TWSUSERID}" "--pw=${TWSPASSWORD}" --fix-user="${FIXUSERID}" --fix-pw="${FIXPASSWORD}" \
-     --java-path="${JAVA_PATH}" --mode="${TRADING_MODE}" &
-
-PID=$!
-wait $PID
-trap - TERM INT
-wait $PID
-
-exit_code=$?
-exit $exit_code
+     --java-path="${JAVA_PATH}" --mode="${TRADING_MODE}"

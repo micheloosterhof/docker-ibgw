@@ -43,7 +43,7 @@ RUN rm -f /tmp/ibgateway-latest-standalone-linux-x64.sh
 # Setup IBC
 # =============================================================================
 ENV IBC_PATH=/opt/ibc
-RUN mkdir -p $IBC_PATH
+RUN mkdir -p $IBC_PATH /root/ibc
 WORKDIR $IBC_PATH
 RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/3.6.0/IBCLinux-3.6.0.zip
 RUN unzip ./IBCLinux-3.6.0.zip
@@ -61,5 +61,6 @@ COPY start.sh ${IBC_PATH}
 RUN chmod u+x ${IBC_PATH}/start.sh
 
 CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh 
+
 EXPOSE 4002
 
