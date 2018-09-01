@@ -64,5 +64,5 @@ RUN chmod u+x ${IBC_PATH}/start.sh
 RUN mkdir -p /root/ibc/logs
 
 CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh 
-EXPOSE 4001
+EXPOSE 4002
 
