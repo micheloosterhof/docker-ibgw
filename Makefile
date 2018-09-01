@@ -20,6 +20,11 @@ shell:
 logs:
 	docker logs ${CONTAINERNAME}
 
+ps:
+	docker ps -f name=${CONTAINERNAME}
+
+status: ps
+
 ip:
 	docker inspect ${CONTAINERNAME} | jq '..|.IPAddress?' | grep -v null | sort -u
 
