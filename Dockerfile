@@ -62,5 +62,5 @@ RUN chmod u+x ${IBC_PATH}/start.sh
 
 CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh 
 
-EXPOSE 4002
+EXPOSE 4001 4002
 
