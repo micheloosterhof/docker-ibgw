@@ -59,8 +59,9 @@ ENV DISPLAY=:1
 
 COPY start.sh ${IBC_PATH}
 RUN chmod u+x ${IBC_PATH}/start.sh
+RUN yum install -y socat
 
-CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh 
+CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh & socat TCP-LISTEN:4001,fork TCP:0.0.0.0:4002
 
 EXPOSE 4001 4002
 
