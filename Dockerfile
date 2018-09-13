@@ -11,7 +11,7 @@ ENV IBGW_GROUP=ibgw
 RUN groupadd -r ${IBGW_GROUP} \
     && useradd -r -m -g ${IBGW_GROUP} ${IBGW_USER}
 
-RUN yum install -y unzip Xvfb which xauth libXrender libXtst
+RUN yum install -y unzip Xvfb which xauth libXrender libXtst socat
 
 # =============================================================================
 # Install Java
@@ -59,7 +59,6 @@ ENV DISPLAY=:1
 
 COPY start.sh ${IBC_PATH}
 RUN chmod u+x ${IBC_PATH}/start.sh
-RUN yum install -y socat
 
 CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh & socat TCP-LISTEN:4001,fork TCP:0.0.0.0:4002
 
