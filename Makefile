@@ -21,7 +21,7 @@ logs:
 	docker logs ${CONTAINERNAME}
 
 ps:
-	docker ps -f name=${CONTAINERNAME}
+	docker ps -a -f name=${CONTAINERNAME}
 
 status: ps
 
