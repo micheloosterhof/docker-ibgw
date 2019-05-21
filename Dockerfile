@@ -1,5 +1,5 @@
 FROM centos
-MAINTAINER Michel Oosterhof <michel@oosterhof.net>
+LABEL maintainer="Michel Oosterhof <michel@oosterhof.net>"
 
 ENV IBGW_USER=ibgw
 ENV IBGW_GROUP=ibgw
@@ -48,7 +48,7 @@ RUN mkdir -p $IBC_PATH /root/ibc
 WORKDIR $IBC_PATH
 RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/${IBC_VERSION}/IBCLinux-${IBC_VERSION}.zip
 RUN unzip ./IBCLinux-${IBC_VERSION}.zip
-RUN find ${IBC_PATH} -name '*.sh' | xargs chmod u+x
+RUN find ${IBC_PATH} -name '*.sh' -print0 | xargs -0 chmod u+x
 RUN rm -f IBCLinux-${IBC_VERSION}.zip
 COPY config.ini /root/ibc
 
