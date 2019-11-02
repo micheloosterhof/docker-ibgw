@@ -63,7 +63,7 @@ RUN chmod u+x ${IBC_PATH}/start.sh
 
 COPY jts.ini /root/Jts/jts.ini
 
-CMD tail --retry -f /root/Jts/launcher.log & Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh -inline
+CMD tail --retry -f /root/Jts/launcher.log & xvfb-run /opt/ibc/start.sh -inline
 
 # 7496 for live, 7497 for paper trading
 EXPOSE 4000
