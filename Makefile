@@ -5,7 +5,7 @@ all: Dockerfile
 	docker build -t ${IMAGENAME} .
 
 start:
-	docker run -p 4001:4001/tcp -p 4002:4002/tcp -d --name ${CONTAINERNAME} ${IMAGENAME}
+	docker run -p 4000:4000/tcp -d --name ${CONTAINERNAME} ${IMAGENAME}
 
 stop:
 	docker stop ${CONTAINERNAME}
