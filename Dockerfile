@@ -11,7 +11,7 @@ ENV IBGW_GROUP=ibgw
 RUN groupadd -r ${IBGW_GROUP} \
     && useradd -r -m -g ${IBGW_GROUP} ${IBGW_USER}
 
-RUN yum install -y unzip Xvfb which xauth libXrender libXtst socat
+RUN yum install -y unzip Xvfb which xauth libXrender libXtst lsof
 
 # =============================================================================
 # Install Java
@@ -61,6 +61,9 @@ ENV DISPLAY=:1
 COPY start.sh ${IBC_PATH}
 RUN chmod u+x ${IBC_PATH}/start.sh
 
-CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh -inline & socat TCP-LISTEN:4001,fork TCP:0.0.0.0:4002
+COPY jts.ini /root/Jts/jts.ini
 
-EXPOSE 4001 4002
+CMD tail --retry -f /root/Jts/launcher.log & Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh -inline
+
+# 7496 for live, 7497 for paper trading
+EXPOSE 4000
