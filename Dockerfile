@@ -45,10 +45,10 @@ RUN rm -f /tmp/ibgateway-latest-standalone-linux-x64.sh
 ENV IBC_PATH=/opt/ibc
 RUN mkdir -p $IBC_PATH /root/ibc
 WORKDIR $IBC_PATH
-RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/3.6.0/IBCLinux-3.6.0.zip
-RUN unzip ./IBCLinux-3.6.0.zip
+RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/3.8.1/IBCLinux-3.8.1.zip
+RUN unzip ./IBCLinux-3.8.1.zip
 RUN find ${IBC_PATH} -name '*.sh' | xargs chmod u+x
-RUN rm -f IBCLinux-3.6.0.zip
+RUN rm -f IBCLinux-3.8.1.zip
 COPY config.ini /root/ibc
 
 WORKDIR /
