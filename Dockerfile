@@ -1,10 +1,10 @@
 FROM centos
-MAINTAINER Michel Oosterhof <michel@oosterhof.net>
+LABEL maintainer="Michel Oosterhof <michel@oosterhof.net>"
 
 ENV IBGW_USER=ibgw
 ENV IBGW_GROUP=ibgw
 
-# This sets up IB Gateway 973 (latest).
+# This sets up IB Gateway 974 (latest).
 # The version of the JVM must be exactly 1.8.0_152.
 
 # add ibgw:ibgw user
@@ -43,12 +43,13 @@ RUN rm -f /tmp/ibgateway-latest-standalone-linux-x64.sh
 # Setup IBC
 # =============================================================================
 ENV IBC_PATH=/opt/ibc
+ENV IBC_VERSION=3.8.1
 RUN mkdir -p $IBC_PATH /root/ibc
 WORKDIR $IBC_PATH
-RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/3.8.1/IBCLinux-3.8.1.zip
-RUN unzip ./IBCLinux-3.8.1.zip
-RUN find ${IBC_PATH} -name '*.sh' | xargs chmod u+x
-RUN rm -f IBCLinux-3.8.1.zip
+RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/${IBC_VERSION}/IBCLinux-${IBC_VERSION}.zip
+RUN unzip ./IBCLinux-${IBC_VERSION}.zip
+RUN find ${IBC_PATH} -name '*.sh' -print0 | xargs -0 chmod u+x
+RUN rm -f IBCLinux-${IBC_VERSION}.zip
 COPY config.ini /root/ibc
 
 WORKDIR /
@@ -60,7 +61,6 @@ ENV DISPLAY=:1
 COPY start.sh ${IBC_PATH}
 RUN chmod u+x ${IBC_PATH}/start.sh
 
-CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh & socat TCP-LISTEN:4001,fork TCP:0.0.0.0:4002
+CMD Xvfb :1 -screen 0 1024x768x24 & /opt/ibc/start.sh -inline & socat TCP-LISTEN:4001,fork TCP:0.0.0.0:4002
 
 EXPOSE 4001 4002
-
