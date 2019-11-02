@@ -4,7 +4,7 @@ LABEL maintainer="Michel Oosterhof <michel@oosterhof.net>"
 ENV IBGW_USER=ibgw
 ENV IBGW_GROUP=ibgw
 
-# This sets up IB Gateway 974 (latest).
+# This sets up IB Gateway 978 (latest).
 # The version of the JVM must be exactly 1.8.0_152.
 
 # add ibgw:ibgw user
