@@ -30,7 +30,6 @@ RUN alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 200000 && \
 # =============================================================================
 # Setup IB TWS
 # =============================================================================
-RUN mkdir -p /opt/TWS
 WORKDIR /tmp
 # RUN curl -O https://download2.interactivebrokers.com/installers/ibgateway/stable-standalone/ibgateway-stable-standalone-linux-x64.sh
 RUN curl -O https://download2.interactivebrokers.com/installers/ibgateway/latest-standalone/ibgateway-latest-standalone-linux-x64.sh
