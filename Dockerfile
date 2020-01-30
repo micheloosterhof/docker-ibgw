@@ -43,7 +43,7 @@ RUN rm -f /tmp/ibgateway-latest-standalone-linux-x64.sh
 # Setup IBC
 # =============================================================================
 ENV IBC_PATH=/opt/ibc
-ENV IBC_VERSION=3.8.1
+ENV IBC_VERSION=3.8.2
 RUN mkdir -p $IBC_PATH /root/ibc
 WORKDIR $IBC_PATH
 RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/${IBC_VERSION}/IBCLinux-${IBC_VERSION}.zip
