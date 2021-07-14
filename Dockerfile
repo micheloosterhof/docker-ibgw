@@ -31,8 +31,8 @@ RUN alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 200000 && \
 # Setup IB TWS
 # =============================================================================
 
-# ENV IBGATEWAYVERSION=stable
-ENV IBGATEWAYVERSION=latest
+ENV IBGATEWAYVERSION=stable
+# ENV IBGATEWAYVERSION=latest
 
 WORKDIR /tmp
 # RUN curl -O https://download2.interactivebrokers.com/installers/ibgateway/${IBGATEWAYVERSION}-standalone/${IBGATEWAYVERSION}-standalone-linux-x64.sh
