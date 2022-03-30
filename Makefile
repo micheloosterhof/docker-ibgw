@@ -38,10 +38,10 @@ ip:
 	docker inspect ${CONTAINERNAME} | jq '..|.IPAddress?' | grep -v null | sort -u
 
 .PHONY: download
-download: IBCLinux-3.8.7.zip ibgateway-stable-standalone-linux-x64.sh ibgateway-latest-standalone-linux-x64.sh server-jre-8u181-linux-x64.tar.gz
+download: IBCLinux-3.12.0.zip ibgateway-stable-standalone-linux-x64.sh ibgateway-latest-standalone-linux-x64.sh server-jre-8u181-linux-x64.tar.gz
 
-IBCLinux-3.8.7.zip:
-	wget https://github.com/IbcAlpha/IBC/releases/download/3.8.7/IBCLinux-3.8.7.zip
+IBCLinux-3.12.0.zip:
+	wget https://github.com/IbcAlpha/IBC/releases/download/3.12.0/IBCLinux-3.12.0.zip
 
 ibgateway-stable-standalone-linux-x64.sh:
 	wget https://download2.interactivebrokers.com/installers/ibgateway/stable-standalone/ibgateway-stable-standalone-linux-x64.sh
