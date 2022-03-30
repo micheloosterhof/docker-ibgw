@@ -3,7 +3,7 @@ CONTAINERNAME= ibgw
 
 .PHONY: all
 all: Dockerfile
-	docker build -t ${IMAGENAME} .
+	docker build --no-cache --disable-content-trust=false -t ${IMAGENAME} .
 
 .PHONY: start
 start:

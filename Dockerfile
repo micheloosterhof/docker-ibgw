@@ -1,4 +1,4 @@
-FROM centos
+FROM debian:bullseye-slim
 LABEL maintainer="Michel Oosterhof <michel@oosterhof.net>"
 
 ENV IBGW_USER=ibgw
@@ -11,7 +11,18 @@ ENV IBGW_GROUP=ibgw
 RUN groupadd -r ${IBGW_GROUP} \
     && useradd -r -m -g ${IBGW_GROUP} ${IBGW_USER}
 
-RUN yum install -y unzip Xvfb which xauth libXrender libXtst lsof
+RUN export DEBIAN_FRONTEND=noninteractive; \
+    apt-get update && \
+    apt-get install -y \
+        -o APT::Install-Suggests=false \
+        -o APT::Install-Recommends=false \
+        unzip \
+        libxrender1 \
+        libxtst6 \
+        xvfb \
+        xauth \
+        lsof && \
+    rm -rf /var/lib/apt/lists/*
 
 # =============================================================================
 # Install Java
@@ -23,9 +34,10 @@ RUN yum install -y unzip Xvfb which xauth libXrender libXtst lsof
 #     chown -R root:root $JAVA_HOME && \
 #     chmod -R a+rX $JAVA_HOME && \
 #     rm -f /tmp/server-jre-8u181-linux-x64.tar.gz
-RUN alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 200000 && \
-    alternatives --install /usr/bin/javaws javaws $JAVA_HOME/bin/javaws 200000 && \
-    alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 200000
+
+#RUN update-alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 200000 && \
+#    update-alternatives --install /usr/bin/javaws javaws $JAVA_HOME/bin/javaws 200000 && \
+#    update-alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 200000
 
 # =============================================================================
 # Setup IB TWS
@@ -36,24 +48,23 @@ ENV IBGATEWAYVERSION=stable
 
 WORKDIR /tmp
 # RUN curl -O https://download2.interactivebrokers.com/installers/ibgateway/${IBGATEWAYVERSION}-standalone/${IBGATEWAYVERSION}-standalone-linux-x64.sh
-COPY ibgateway-${IBGATEWAYVERSION}-standalone-linux-x64.sh /tmp
-RUN chmod u+x /tmp/ibgateway-${IBGATEWAYVERSION}-standalone-linux-x64.sh
-RUN echo 'n' | /tmp/ibgateway-${IBGATEWAYVERSION}-standalone-linux-x64.sh
-RUN rm -f /tmp/ibgateway-${IBGATEWAYVERSION}-standalone-linux-x64.sh
+COPY --chmod=711 ibgateway-${IBGATEWAYVERSION}-standalone-linux-x64.sh /tmp
+RUN echo '\nn\n' | /tmp/ibgateway-${IBGATEWAYVERSION}-standalone-linux-x64.sh && \
+    rm -f /tmp/ibgateway-${IBGATEWAYVERSION}-standalone-linux-x64.sh
 
 # =============================================================================
 # Setup IBC
 # =============================================================================
 ENV IBC_PATH=/opt/ibc
-ENV IBC_VERSION=3.8.7
+ENV IBC_VERSION=3.12.0
 RUN mkdir -p $IBC_PATH /root/ibc
 WORKDIR $IBC_PATH
 # RUN curl -LO https://github.com/IbcAlpha/IBC/releases/download/${IBC_VERSION}/IBCLinux-${IBC_VERSION}.zip
-COPY IBCLinux-${IBC_VERSION}.zip $IBC_PATH
-RUN unzip ./IBCLinux-${IBC_VERSION}.zip
-RUN find ${IBC_PATH} -name '*.sh' -print0 | xargs -0 chmod u+x
-RUN rm -f IBCLinux-${IBC_VERSION}.zip
-COPY config.ini /root/ibc
+COPY --chmod=600 IBCLinux-${IBC_VERSION}.zip $IBC_PATH
+RUN unzip ./IBCLinux-${IBC_VERSION}.zip && \
+    find ${IBC_PATH} -name '*.sh' -print0 | xargs -0 chmod u+x && \
+    rm -f IBCLinux-${IBC_VERSION}.zip
+COPY --chmod=600 config.ini /root/ibc
 
 WORKDIR /
 # =============================================================================
@@ -61,10 +72,9 @@ WORKDIR /
 # =============================================================================
 ENV DISPLAY=:1
 
-COPY start.sh ${IBC_PATH}
-RUN chmod u+x ${IBC_PATH}/start.sh
+COPY --chmod=711 start.sh ${IBC_PATH}
 
-COPY jts.ini /root/Jts/jts.ini
+COPY --chmod=600 jts.ini /root/Jts/jts.ini
 
 CMD tail --retry -f /root/Jts/launcher.log & xvfb-run /opt/ibc/start.sh -inline
 

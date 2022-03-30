@@ -6,7 +6,7 @@
 #   probably only need to change the first one.                               +
 #=============================================================================+
 
-TWS_MAJOR_VRSN=978
+TWS_MAJOR_VRSN=981
 IBC_INI=~/ibc/config.ini
 TRADING_MODE=paper
 IBC_PATH=/opt/ibc
